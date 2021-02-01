@@ -11,6 +11,8 @@ public class Variables {
     public static final int feedMotorPort = 13;
     public static final int shooterMotorOnePort = 5;
     public static final int shooterMotorTwoPort = 6;
+    public static final int shooterMotorLeftPort = 5;
+    public static final int shooterMotorRightPort = 6;
     public static final int intakeMotorOnePort = 9;
     //public static final int intakeMotorTwoPort = 4;
     public static final int raiseMotorPort = 8;
@@ -50,13 +52,13 @@ public class Variables {
     public static final double leftShooter_kP = 0;
     public static final double leftShooter_kI = 0;
     public static final double leftShooter_kD = 0;
-    public static final double leftShooter_kF = 0;
+    public static final double leftShooter_kF = 0.047235;
 
     // Right Shooter Gains
-    public static final double rightShooter_kP = 0.5;
+    public static final double rightShooter_kP = 0;
     public static final double rightShooter_kI = 0;
     public static final double rightShooter_kD = 0;
-    public static final double rightShooter_kF = 0;
+    public static final double rightShooter_kF = 0.046669;
 
     // Shooter Speed Gain
     //public static final double shooterDistanceNear_kP = -(1.0 / 11.0); //Fix value?
