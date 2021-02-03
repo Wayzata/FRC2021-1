@@ -43,6 +43,7 @@ public class Robot extends TimedRobot {
   NetworkTable limeTable;
   NetworkTable mainTable;
 
+  static Shooter shooter;
   public static boolean crossedLine = false;
 
   public static String gameData;
@@ -181,7 +182,7 @@ public class Robot extends TimedRobot {
       }
       else {
         shooter.setFullShoot(false);
-        shooter.spinUpShooter(false, 0);
+        shooter.calculateDistanceAndShoot(false, 0);
         intake.checkIntake(joy.getRawButton(2), joy.getRawButton(9));   
       }
       driveTrain.mecDrive(joy);

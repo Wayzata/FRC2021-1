@@ -63,4 +63,6 @@ public class Variables {
     public static final double shooterDistanceMiddle_kP = -(1.0 / 12.8);
     public static final double shooterDistanceFar_kP = -(1.0 / 11.);
     //
+
+    public static final double constantDH = 0;
 }

@@ -184,6 +184,7 @@ public class Intake {
         // } else {
         //     return false;
         // }
+        return false;
     }
     /**
      * Configures and sets the shooter motor PID values
