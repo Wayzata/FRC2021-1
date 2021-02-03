@@ -47,13 +47,13 @@ public class Variables {
     public static final double shooterNominalVoltage = 6.1; // 6.1 Update this value once tuned - NOT TUNED
 
     // Left Shooter Gains
-    public static final double leftShooter_kP = 0;
+    public static final double leftShooter_kP = 0.05;
     public static final double leftShooter_kI = 0;
     public static final double leftShooter_kD = 0;
     public static final double leftShooter_kF = 0.047235;
 
     // Right Shooter Gains
-    public static final double rightShooter_kP = 0;
+    public static final double rightShooter_kP = 0.05;
     public static final double rightShooter_kI = 0;
     public static final double rightShooter_kD = 0;
     public static final double rightShooter_kF = 0.046669;
@@ -64,5 +64,5 @@ public class Variables {
     public static final double shooterDistanceFar_kP = -(1.0 / 11.);
     //
 
-    public static final double constantDH = 0;
+    public static final double constantDH = 6.2;
 }

@@ -8,7 +8,7 @@
 package frc.robot;
 import com.ctre.phoenix.motorcontrol.ControlMode;
 import com.ctre.phoenix.motorcontrol.can.WPI_TalonFX;
-
+import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 /**
  * Add your docs here.
  */
@@ -29,6 +29,7 @@ public class Shooter {
         leftShooter.config_kI(0, Variables.leftShooter_kI);
         leftShooter.config_kD(0, Variables.leftShooter_kD);
         leftShooter.config_kF(0, Variables.leftShooter_kF);
+        leftShooter.setInverted(true);
 
         rightShooter.configFactoryDefault();
         rightShooter.configPeakOutputForward(1);
@@ -48,7 +49,7 @@ public class Shooter {
 
      public void calculateDistanceAndShoot(boolean bPressed, double ty) {
         // This function uses the equation found at https://www.chiefdelphi.com/t/calculating-distance-to-vision-target/387183/6 to calculate distance to target at any angle relative to it.
-        double distanceToTarget = Variables.constantDH/(java.lang.Math.tan(ty));
+        double distanceToTarget = Variables.constantDH/(java.lang.Math.tan(Math.toRadians((-1*ty)+15)));
         spinShooter(bPressed, distanceToTarget);
 
 
@@ -58,8 +59,11 @@ public class Shooter {
         // When complete, this function will use distance to calcualte an appropriate RPM for the shooter motors. 
         // Can be linear, but should really be exponential or curved. Base off of field tests.
         if (bPressed){
-        leftShooter.set(ControlMode.Velocity, convertToUnitsPer100ms(3000));
-        rightShooter.set(ControlMode.Velocity, convertToUnitsPer100ms(3000));
+        leftShooter.set(ControlMode.Velocity, convertToUnitsPer100ms(3500));
+        SmartDashboard.putNumber("Left Shooter Speed: ", leftShooter.getSelectedSensorVelocity());
+        rightShooter.set(ControlMode.Velocity, convertToUnitsPer100ms(3500));
+        SmartDashboard.putNumber("Right Shooter Speed: ", rightShooter.getSelectedSensorVelocity());
+        SmartDashboard.putNumber("Distance (Ft): ", distance);
         } else {
         leftShooter.set(ControlMode.PercentOutput, 0);
         rightShooter.set(ControlMode.PercentOutput, 0);
