@@ -14,11 +14,11 @@ import com.ctre.phoenix.motorcontrol.can.WPI_TalonFX;
  */
 public class Shooter {
 
-
     WPI_TalonFX leftShooter;
     WPI_TalonFX rightShooter;
 
-    public Shooter(){
+    public shooterInit(){
+        // INITIATE AND SET PID COEFFICIENTS for the 2 shooter motors
         leftShooter = new WPI_TalonFX(Variables.shooterMotorLeftPort);
         rightShooter = new WPI_TalonFX(Variables.shooterMotorRightPort);
 
@@ -46,14 +46,41 @@ public class Shooter {
 	 * velocity setpoint is in units/100ms
      */
 
-     public void spinShooter(double distance){
+     public void calculateDistanceAndShoot(boolean bPressed, double ty) {
+        // This function uses the equation found at https://www.chiefdelphi.com/t/calculating-distance-to-vision-target/387183/6 to calculate distance to target at any angle relative to it.
+        double distanceToTarget = Variables.constantDH/(java.lang.Math.tan(ty));
+        spinShooter(distanceToTarget);
+
+     }
+
+     public void spinShooter(double distance) {
+        // When complete, this function will use distance to calcualte an appropriate RPM for the shooter motors. 
+        // Can be linear, but should really be exponential or curved. Base off of field tests.
+
         leftShooter.set(ControlMode.Velocity, convertToUnitsPer100ms(15));
         rightShooter.set(ControlMode.Velocity, convertToUnitsPer100ms(15));
+
      }
 
      private double convertToUnitsPer100ms(double rpm){
+         // This function converts RPM to the unit, called "unit," that the motors use.
         double unitsPerMinute = (rpm * 2048);
         double unitsPer100 = unitsPerMinute / 600;
         return unitsPer100;
      }
+
+     public void setFullShoot(boolean bPressed){
+         // This function was in the old shoot thing, so I moved it over.
+      if (bPressed){
+          calculateDistanceAndShoot(true, 0);
+          intake.setFullConvey(true);
+          intake.intakeMotorOne.set(ControlMode.PercentOutput, Variables.intakeMotorSpeed);
+      } else {
+          calculateDistanceAndShoot(false, 0);
+         intake.setFullConvey(false);
+          intake.intakeMotorOne.set(ControlMode.PercentOutput, 0);
+      }
+  }
+
+
 }

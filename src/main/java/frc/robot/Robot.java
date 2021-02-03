@@ -62,7 +62,11 @@ public class Robot extends TimedRobot {
 
     // Initialize Intake Subsystem
     intake = new Intake();
-    intake.setupShooterMotorConfigs();
+    // intake.setupShooterMotorConfigs();
+
+    // Initialize shooter
+    shooter = new Shooter();
+    shooter.shooterInit();
     
     // Initialize Climbing Subsystem
     climbing = new Climbing();
@@ -173,11 +177,11 @@ public class Robot extends TimedRobot {
     }
     else {
       if(joy.getRawButton(10)) {
-        intake.setFullShoot(true);
+        shooter.setFullShoot(true);
       }
       else {
-        intake.setFullShoot(false);
-        intake.spinUpShooter(false, 0);
+        shooter.setFullShoot(false);
+        shooter.spinUpShooter(false, 0);
         intake.checkIntake(joy.getRawButton(2), joy.getRawButton(9));   
       }
       driveTrain.mecDrive(joy);

@@ -9,8 +9,6 @@ public class Variables {
     public static final int backRightMotorPort = 3;
     public static final int conveyorMotorPort = 10;
     public static final int feedMotorPort = 13;
-    public static final int shooterMotorOnePort = 5;
-    public static final int shooterMotorTwoPort = 6;
     public static final int shooterMotorLeftPort = 5;
     public static final int shooterMotorRightPort = 6;
     public static final int intakeMotorOnePort = 9;

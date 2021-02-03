@@ -99,7 +99,8 @@ public class DriveTrain {
         ta = limeTable.getEntry("ta").getDouble(0);
         ts = limeTable.getEntry("ts").getDouble(0);
 
-        Robot.intake.spinUpShooter(true, ty);
+        Robot.shooter.calculateDistanceAndShoot(true, ty);
+        
         if (tv == 1) {
             if (xIsAcceptable(tx)) {
                 zAdjust = 0;
