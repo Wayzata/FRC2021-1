@@ -17,7 +17,7 @@ public class Shooter {
     WPI_TalonFX leftShooter;
     WPI_TalonFX rightShooter;
 
-    public shooterInit(){
+    public void shooterInit() {
         // INITIATE AND SET PID COEFFICIENTS for the 2 shooter motors
         leftShooter = new WPI_TalonFX(Variables.shooterMotorLeftPort);
         rightShooter = new WPI_TalonFX(Variables.shooterMotorRightPort);
@@ -37,7 +37,6 @@ public class Shooter {
         rightShooter.config_kI(0, Variables.rightShooter_kI);
         rightShooter.config_kD(0, Variables.rightShooter_kD);
         rightShooter.config_kF(0, Variables.rightShooter_kF);
-
     }
 
     /* Shooter via Velocity control and Falcons
