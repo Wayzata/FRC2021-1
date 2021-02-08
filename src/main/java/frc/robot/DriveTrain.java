@@ -92,14 +92,30 @@ public class DriveTrain {
         mDrive.driveCartesian(0, 0, 0);
     }
 
-    public void targetGoal(Joystick joy) {
+    public void targetGoal(Joystick joy, int option) {
         tv = limeTable.getEntry("tv").getDouble(0);
         tx = limeTable.getEntry("tx").getDouble(0);
         ty = limeTable.getEntry("ty").getDouble(0);
         ta = limeTable.getEntry("ta").getDouble(0);
         ts = limeTable.getEntry("ts").getDouble(0);
 
-        Robot.shooter.calculateDistanceAndShoot(true, ty);
+        switch (option) {
+            case 1:
+              Robot.shooter.calculateDistanceatAngle(true, ty, tx); 
+              break;
+            case 2:
+              Robot.shooter.calculateDistanceAndShoot(true, ty);
+              break;
+            case 3:
+              Robot.shooter.calculateDistanceAndShootatAngle(true, ty, tx);
+              break;
+            default:
+              Robot.shooter.calculateDistance(true, ty);
+              break;
+          }
+
+
+
         
         if (tv == 1) {
             if (xIsAcceptable(tx)) {

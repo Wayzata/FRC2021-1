@@ -32,6 +32,13 @@ public class Robot extends TimedRobot {
   private String m_autoSelected;
   private final SendableChooser<String> m_chooser = new SendableChooser<>();
 
+  private static final String kDefaultShooter = "Test";
+  private static final String kCustomShooter = "Test (angle)";
+  private static final String kCustomShooter2 = "Shoot";
+  private static final String kCustomShooter3 = "Shoot (angle)";
+  private String s_shooterSelected;
+  private final SendableChooser<String> s_chooser = new SendableChooser<>();
+
   public static DriveTrain driveTrain;
   public static Intake intake;
   Climbing climbing;
@@ -57,6 +64,12 @@ public class Robot extends TimedRobot {
     m_chooser.setDefaultOption("Default Auto", kDefaultAuto);
     m_chooser.addOption("My Auto", kCustomAuto);
     SmartDashboard.putData("Auto choices", m_chooser);
+
+    s_chooser.setDefaultOption("Test", kDefaultShooter);
+    s_chooser.addOption("Test (angle)", kCustomShooter);
+    s_chooser.addOption("Shoot", kCustomShooter2);
+    s_chooser.addOption("Shoot (angle)", kCustomShooter3);
+    SmartDashboard.putData("Shooter choices", s_chooser);
 
     // Initialize Drive Subsystem
     driveTrain = new DriveTrain();
@@ -173,8 +186,25 @@ public class Robot extends TimedRobot {
     
 
     if (joy.getTrigger()){
+
       limeTable.getEntry("ledMode").setNumber(3);
-      driveTrain.targetGoal(joy); 
+
+      s_shooterSelected = s_chooser.getSelected();
+      switch (s_shooterSelected) {
+        case kCustomShooter:
+          driveTrain.targetGoal(joy, 1); 
+          break;
+        case kCustomShooter2:
+          driveTrain.targetGoal(joy, 2); 
+          break;
+        case kCustomShooter3:
+          driveTrain.targetGoal(joy, 3); 
+          break;
+        default:
+          driveTrain.targetGoal(joy, 4); 
+          break;
+      }
+      
     }
     else {
       if(joy.getRawButton(10)) {
