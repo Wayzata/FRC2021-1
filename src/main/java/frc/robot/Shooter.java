@@ -41,18 +41,38 @@ public class Shooter {
 
     }
 
-    /* Shooter via Velocity control and Falcons
+    // THESE TWO FUNCTIONS JUST PUT THE DISTANCE THE ROBOT CALCULATES AND ALL ASSOCIATED VARIBLES ON THE SMART DASHBOARD WITHOUT SHOOTING
+
+    public void calculateDistance(boolean bPressed, double ty) {
+        double distanceToTarget = Variables.constantDH/((java.lang.Math.tan(Math.toRadians((-1*ty)+15)))*java.lang.Math.cos(Math.toRadians((tx))));
+        SmartDashboard.putNumber("ty: ", ty);
+        SmartDashboard.putNumber("Distance (ignoring tx)", distanceToTarget);
+     }
+
+     public void calculateDistanceatAngle(boolean bPressed, double ty, double tx) {
+        double distanceToTarget = Variables.constantDH/((java.lang.Math.tan(Math.toRadians((-1*ty)+15)))*java.lang.Math.cos(Math.toRadians((tx))));
+        SmartDashboard.putNumber("ty: ", ty);
+        SmartDashboard.putNumber("tx: ", tx);
+        SmartDashboard.putNumber("Distance (incorporating tx)", distanceToTarget);
+     }
+
+     /* Shooter via Velocity control and Falcons
      * Convert 500 RPM to units / 100ms.
 	 * 2048 Units/Rev * 500 RPM / 600 100ms/min in either direction:
 	 * velocity setpoint is in units/100ms
      */
+     
 
      public void calculateDistanceAndShoot(boolean bPressed, double ty) {
         // This function uses the equation found at https://www.chiefdelphi.com/t/calculating-distance-to-vision-target/387183/6 to calculate distance to target at any angle relative to it.
         double distanceToTarget = Variables.constantDH/(java.lang.Math.tan(Math.toRadians((-1*ty)+15)));
         spinShooter(bPressed, distanceToTarget);
+     }
 
-
+     public void calculateDistanceAndShootatAngle(boolean bPressed, double ty, double tx) {
+        // This function uses the equation found at https://www.chiefdelphi.com/t/calculating-distance-to-vision-target/387183/6 to calculate distance to target at any angle relative to it.
+        double distanceToTarget = Variables.constantDH/((java.lang.Math.tan(Math.toRadians((-1*ty)+15)))*java.lang.Math.cos(Math.toRadians((tx))));
+        spinShooter(bPressed, distanceToTarget);
      }
 
      public void spinShooter(boolean bPressed, double distance) {
