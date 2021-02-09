@@ -71,6 +71,7 @@ public class Robot extends TimedRobot {
     s_chooser.addOption("Shoot (angle)", kCustomShooter3);
     SmartDashboard.putData("Shooter choices", s_chooser);
 
+    SmartDashboard.putNumber("motorSpeed", 3500);
     // Initialize Drive Subsystem
     driveTrain = new DriveTrain();
 
@@ -148,7 +149,7 @@ public class Robot extends TimedRobot {
       case "Boring":
       default:
         if(crossedLine) {
-          driveTrain.targetGoal(joy);
+          driveTrain.targetGoal(joy, 3);
         }
         else {
           driveTrain.backUp();
@@ -166,6 +167,8 @@ public class Robot extends TimedRobot {
   @Override
   public void teleopPeriodic() {
 
+    SmartDashboard.putNumber("TY UPDATING: ", limeTable.getEntry("ty").getDouble(0));
+    SmartDashboard.putNumber("Distance UD: ", 1.5 + Variables.constantDH/(java.lang.Math.tan(Math.toRadians((1.41*limeTable.getEntry("ty").getDouble(0))+47.3))));
     climbing.checkClimb(joy.getPOV());
 
     if(joy.getRawButton(3)) {

@@ -42,9 +42,20 @@ public class Shooter {
     }
 
     // THESE TWO FUNCTIONS JUST PUT THE DISTANCE THE ROBOT CALCULATES AND ALL ASSOCIATED VARIBLES ON THE SMART DASHBOARD WITHOUT SHOOTING
+    private double distanceToTarget(double ty){
+        double d = 0;
+        if (ty > 0){
+            d = 10;
+        } else if (ty <= 0){
+            d = 1.5 + Variables.constantDH/(java.lang.Math.tan(Math.toRadians((1.41*ty)+47.3)));
+        }
+
+        return d;
+    }
+
 
     public void calculateDistance(boolean bPressed, double ty) {
-        double distanceToTarget = Variables.constantDH/((java.lang.Math.tan(Math.toRadians((-1*ty)+15)))*java.lang.Math.cos(Math.toRadians((tx))));
+        double distanceToTarget = distanceToTarget(ty);
         SmartDashboard.putNumber("ty: ", ty);
         SmartDashboard.putNumber("Distance (ignoring tx)", distanceToTarget);
      }
@@ -65,7 +76,8 @@ public class Shooter {
 
      public void calculateDistanceAndShoot(boolean bPressed, double ty) {
         // This function uses the equation found at https://www.chiefdelphi.com/t/calculating-distance-to-vision-target/387183/6 to calculate distance to target at any angle relative to it.
-        double distanceToTarget = Variables.constantDH/(java.lang.Math.tan(Math.toRadians((-1*ty)+15)));
+        double distanceToTarget = distanceToTarget(ty);
+
         spinShooter(bPressed, distanceToTarget);
      }
 
@@ -79,11 +91,22 @@ public class Shooter {
         // When complete, this function will use distance to calcualte an appropriate RPM for the shooter motors. 
         // Can be linear, but should really be exponential or curved. Base off of field tests.
         if (bPressed){
-        leftShooter.set(ControlMode.Velocity, convertToUnitsPer100ms(3500));
-        SmartDashboard.putNumber("Left Shooter Speed: ", leftShooter.getSelectedSensorVelocity());
-        rightShooter.set(ControlMode.Velocity, convertToUnitsPer100ms(3500));
-        SmartDashboard.putNumber("Right Shooter Speed: ", rightShooter.getSelectedSensorVelocity());
-        SmartDashboard.putNumber("Distance (Ft): ", distance);
+            if (distance <= 10){
+                leftShooter.set(ControlMode.Velocity, convertToUnitsPer100ms(2750));
+                SmartDashboard.putNumber("Left Shooter Speed: ", (leftShooter.getSelectedSensorVelocity() * 600)/2048);
+                rightShooter.set(ControlMode.Velocity, convertToUnitsPer100ms(2750));
+                SmartDashboard.putNumber("Right Shooter Speed: ", (rightShooter.getSelectedSensorVelocity() * 600)/2048);
+            } else if (distance > 10 && distance < 15){
+                leftShooter.set(ControlMode.Velocity, convertToUnitsPer100ms(50*distance + 2250));
+                SmartDashboard.putNumber("Left Shooter Speed: ", (leftShooter.getSelectedSensorVelocity() * 600)/2048);
+                rightShooter.set(ControlMode.Velocity, convertToUnitsPer100ms(50*distance + 2250));
+                SmartDashboard.putNumber("Right Shooter Speed: ", (rightShooter.getSelectedSensorVelocity() * 600)/2048);
+            } else if (distance > 15){
+                leftShooter.set(ControlMode.Velocity, convertToUnitsPer100ms(SmartDashboard.getNumber("motorSpeed", 3500)));
+                SmartDashboard.putNumber("Left Shooter Speed: ", (leftShooter.getSelectedSensorVelocity() * 600)/2048);
+                rightShooter.set(ControlMode.Velocity, convertToUnitsPer100ms(SmartDashboard.getNumber("motorSpeed", 3500)));
+                SmartDashboard.putNumber("Right Shooter Speed: ", (rightShooter.getSelectedSensorVelocity() * 600)/2048);
+            }
         } else {
         leftShooter.set(ControlMode.PercentOutput, 0);
         rightShooter.set(ControlMode.PercentOutput, 0);
