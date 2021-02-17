@@ -6,6 +6,9 @@
 /*----------------------------------------------------------------------------*/
 
 package frc.robot;
+
+import java.util.concurrent.TimeUnit;
+
 import com.ctre.phoenix.motorcontrol.ControlMode;
 import com.ctre.phoenix.motorcontrol.can.WPI_TalonFX;
 import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
@@ -132,6 +135,71 @@ public class Shooter {
           Robot.intake.setFullConvey(false);
           Robot.intake.intakeMotorOne.set(ControlMode.PercentOutput, 0);
       }
+  }
+
+  public void autokF() {
+    // Initiate all variables neccesary
+    double currentLeftkF = Variables.leftShooter_kF;
+    double currentRightkF = Variables.rightShooter_kF;
+    int[] benchmarks = {3000, 3500, 4000};
+    double[] kFArr = new double[3];
+    Boolean leftMotorTuned = false;
+    Boolean rightMotorTuned = false;
+    double kFLeft, kFRight;
+
+
+    // AUTO-TUNE kF of Left Shooter
+    for(int i = 0; i<=2; i++) {
+        while (!leftMotorTuned) { 
+            leftShooter.config_kF(0, currentLeftkF);
+            leftShooter.set(ControlMode.Velocity, convertToUnitsPer100ms(benchmarks[i]));
+            try {
+                Thread.sleep(500);
+            } catch(InterruptedException ex) {
+                Thread.currentThread().interrupt();
+            }
+            int rpm = (leftShooter.getSelectedSensorVelocity() * 600)/2048;
+            if(Math.abs(rpm-benchmarks[i]) < 50) {
+                leftMotorTuned = true;
+            } else if (rpm > benchmarks[i]) {
+                currentLeftkF -= .0003;
+            } else {
+                currentLeftkF += .0003;
+            }
+        }
+        kFArr[i] = currentLeftkF;
+        leftMotorTuned = false;
+    }
+    kFLeft = (kFArr[0] + kFArr[1] + kFArr[2])/3;
+    System.out.println(kFLeft);
+
+
+    // AUTO-TUNE kF of Right Shooter
+
+    for(int i = 0; i<=2; i++) {
+        while (!rightMotorTuned) { 
+            rightShooter.config_kF(0, currentRightkF);
+            rightShooter.set(ControlMode.Velocity, convertToUnitsPer100ms(benchmarks[i]));
+            try {
+                Thread.sleep(500);
+            } catch(InterruptedException ex) {
+                Thread.currentThread().interrupt();
+            }
+            int rpm = (rightShooter.getSelectedSensorVelocity() * 600)/2048;
+            if(Math.abs(rpm-benchmarks[i]) < 50) {
+                rightMotorTuned = true;
+            } else if (rpm > benchmarks[i]) {
+                currentRightkF -= .0003;
+            } else {
+                currentRightkF += .0003;
+            }
+        }
+        kFArr[i] = currentRightkF;
+        rightMotorTuned = false;
+    }
+    kFRight = (kFArr[0] + kFArr[1] + kFArr[2])/3;
+    System.out.println(kFRight);
+
   }
 
 
