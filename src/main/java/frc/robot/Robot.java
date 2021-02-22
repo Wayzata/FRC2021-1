@@ -82,7 +82,8 @@ public class Robot extends TimedRobot {
     // Initialize shooter
     shooter = new Shooter();
     shooter.shooterInit();
-    
+    // shooter.autokF();
+
     // Initialize Climbing Subsystem
     climbing = new Climbing();
     climbing.PIDSetup();

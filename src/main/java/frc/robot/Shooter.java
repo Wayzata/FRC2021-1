@@ -26,8 +26,6 @@ public class Shooter {
         rightShooter = new WPI_TalonFX(Variables.shooterMotorRightPort);
 
         leftShooter.configFactoryDefault();
-        leftShooter.configPeakOutputForward(1);
-        leftShooter.configPeakOutputReverse(-1);
         leftShooter.config_kP(0, Variables.leftShooter_kP);
         leftShooter.config_kI(0, Variables.leftShooter_kI);
         leftShooter.config_kD(0, Variables.leftShooter_kD);
@@ -35,8 +33,6 @@ public class Shooter {
         leftShooter.setInverted(true);
 
         rightShooter.configFactoryDefault();
-        rightShooter.configPeakOutputForward(1);
-        rightShooter.configPeakOutputReverse(-1);
         rightShooter.config_kP(0, Variables.rightShooter_kP);
         rightShooter.config_kI(0, Variables.rightShooter_kI);
         rightShooter.config_kD(0, Variables.rightShooter_kD);
